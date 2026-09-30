@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Word表格数据提取工具 - 界面预览</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f0f0f0;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .window {
+    width: 820px;
+    background: #f0f0f0;
+    border: 1px solid #c0c0c0;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    overflow: hidden;
+  }
+  .title-bar {
+    background: linear-gradient(180deg, #4a90e2, #357abd);
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title-bar .dots span {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-left: 4px;
+  }
+  .dots span:nth-child(1) { background: #ff5f57; }
+  .dots span:nth-child(2) { background: #febc2e; }
+  .dots span:nth-child(3) { background: #28c840; }
+
+  .content { padding: 12px; }
+
+  .group {
+    background: #f0f0f0;
+    border: 1px solid #b0b0b0;
+    border-radius: 4px;
+    padding: 6px 10px 10px;
+    margin-bottom: 8px;
+  }
+  .group-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #222;
+    background: #f0f0f0;
+    padding: 0 8px;
+    margin-top: -14px;
+    display: inline-block;
+  }
+  .group-title span { color: #4472C4; margin-right: 4px; }
+
+  .row { display: flex; align-items: center; margin: 8px 4px; gap: 6px; }
+  .row2 { display: flex; align-items: center; margin: 8px 4px; gap: 6px; }
+
+  label.lbl {
+    font-size: 13px;
+    color: #222;
+    width: 92px;
+    flex-shrink: 0;
+  }
+  input[type="text"], input[type="number"] {
+    border: 1px solid #b0b0b0;
+    background: #fff;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-family: inherit;
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type="text"] { flex: 1; min-width: 0; }
+  input[type="number"] { width: 72px; text-align: center; }
+  input:focus { border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74,144,226,0.2); }
+
+  button.btn-browse {
+    background: linear-gradient(180deg, #f8f8f8, #e0e0e0);
+    border: 1px solid #b0b0b0;
+    padding: 4px 14px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    min-width: 72px;
+  }
+  button.btn-browse:hover { background: linear-gradient(180deg, #fff, #e8e8e8); }
+
+  .auto-detect {
+    background: #E8F4FD;
+    border: 1px solid #6BADE8;
+    color: #1F4E79;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .auto-detect:hover { background: #D6EAF8; }
+
+  .check-row {
+    display: flex;
+    gap: 24px;
+    margin: 6px 4px 2px;
+  }
+  .check-row label {
+    font-size: 13px;
+    color: #222;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .check-row input { accent-color: #4472C4; width: 14px; height: 14px; }
+
+  /* 预览区 */
+  .table-wrap {
+    background: #fff;
+    border: 1px solid #b0b0b0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  table.preview {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-family: "Consolas", "Microsoft YaHei", monospace;
+  }
+  table.preview th {
+    background: #4472C4;
+    color: #fff;
+    padding: 6px 8px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #B4B4B4;
+    font-size: 12px;
+  }
+  table.preview td {
+    padding: 5px 8px;
+    border: 1px solid #D0D0D0;
+    text-align: center;
+    color: #333;
+    white-space: nowrap;
+  }
+  table.preview tr:nth-child(even) td { background: #fafbfc; }
+  table.preview tr:hover td { background: #E8F4FD; }
+
+  /* 日志区 */
+  .log {
+    background: #1E1E1E;
+    color: #D4D4D4;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 3px;
+    height: 120px;
+    overflow: auto;
+    border: 1px solid #333;
+  }
+  .log .info { color: #9CDCFE; }
+  .log .ok { color: #4EC9B0; }
+  .log .warn { color: #CE9178; }
+  .log .err { color: #F44747; }
+
+  /* 底部 */
+  .footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 4px 2px;
+  }
+  .progress {
+    flex: 1;
+    height: 18px;
+    background: #e0e0e0;
+    border: 1px solid #b0b0b0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, #4472C4, #5B9BD5);
+    transition: width 0.3s;
+  }
+
+  button.btn {
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 100px;
+  }
+  .btn-warning {
+    background: #FFC107;
+    color: #333;
+    border-color: #E0A800;
+  }
+  .btn-warning:hover { background: #FFD54F; }
+  .btn-success {
+    background: #4CAF50;
+    color: #fff;
+    border-color: #388E3C;
+  }
+  .btn-success:hover { background: #66BB6A; }
+
+  .data-range { display: flex; align-items: center; gap: 4px; }
+  .data-range input { width: 58px; text-align: center; }
+  .data-range .tilde { color: #666; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="window">
+  <div class="title-bar">
+    <span>📊 Word表格数据提取工具 v1.0</span>
+    <div class="dots"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="content">
+
+    <!-- 文件选择 -->
+    <div class="group">
+      <div class="group-title"><span>📁</span>文件选择</div>
+      <div class="row">
+        <label class="lbl">Word 文件：</label>
+        <input type="text" value="D:\业务数据\客户台账_2026.docx" readonly>
+        <button class="btn-browse">浏览...</button>
+      </div>
+      <div class="row">
+        <label class="lbl">Excel 输出：</label>
+        <input type="text" value="D:\业务数据\客户台账_2026_提取结果.xlsx" readonly>
+        <button class="btn-browse">浏览...</button>
+      </div>
+    </div>
+
+    <!-- 参数配置 -->
+    <div class="group">
+      <div class="group-title"><span>⚙️</span>表格参数配置</div>
+      <div class="row2">
+        <label class="lbl">每页表格列数：</label>
+        <input type="number" value="5" min="1">
+        <label class="lbl" style="margin-left:12px">每页表格行数：</label>
+        <input type="number" value="30" min="1">
+        <button class="auto-detect" style="margin-left:auto">🔍 自动检测表格结构</button>
+      </div>
+      <div class="row2">
+        <label class="lbl">标题列索引：</label>
+        <input type="number" value="0" min="0">
+        <label class="lbl" style="margin-left:12px">数据列范围：</label>
+        <div class="data-range">
+          <input type="number" value="1" min="0">
+          <span class="tilde">~</span>
+          <input type="number" value="3" min="0">
+        </div>
+      </div>
+      <div class="check-row">
+        <label><input type="checkbox"> 跳过每页第一行（若为表头）</label>
+        <label><input type="checkbox" checked> 导出结果中包含标题列</label>
+      </div>
+    </div>
+
+    <!-- 预览 -->
+    <div class="group">
+      <div class="group-title"><span>🔎</span>数据预览（前10行）</div>
+      <div class="table-wrap">
+        <table class="preview">
+          <thead>
+            <tr>
+              <th>标题列 (Col1)</th>
+              <th>数据列 (Col2)</th>
+              <th>数据列 (Col3)</th>
+              <th>数据列 (Col4)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>姓名</td><td>张三</td><td>男</td><td>1985-03-12</td></tr>
+            <tr><td>电话</td><td>13800138001</td><td>手机</td><td>已验证</td></tr>
+            <tr><td>地址</td><td>北京市朝阳区</td><td>建国路88号</td><td>SOHO现代城</td></tr>
+            <tr><td>邮箱</td><td>zhangsan@example.com</td><td>工作</td><td>活跃用户</td></tr>
+            <tr><td>公司</td><td>科技有限公司</td><td>研发部</td><td>高级工程师</td></tr>
+            <tr><td>入职日期</td><td>2018-07-01</td><td>正式员工</td><td>已过试用期</td></tr>
+            <tr><td>部门电话</td><td>010-88886666</td><td>分机 101</td><td>工作日 9-18</td></tr>
+            <tr><td>紧急联系人</td><td>李四</td><td>13900139002</td><td>配偶</td></tr>
+            <tr><td>备注</td><td>VIP 客户</td><td>合同期内</td><td>信用良好</td></tr>
+            <tr><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 日志 -->
+    <div class="group">
+      <div class="group-title"><span>📜</span>运行日志</div>
+      <div class="log">
+        <div><span class="info">[读取]</span> 正在解析 Word 文档...</div>
+        <div><span class="info">[读取]</span> 共发现 <span class="ok">24</span> 个表格</div>
+        <div><span class="info">[结构]</span> 每个表格约 <span class="ok">30行 × 5列</span></div>
+        <div><span class="info">[提取]</span> 已处理 12/24 个表格...</div>
+        <div><span class="warn">[提示]</span> 检测到第 7 个表格第 3 行存在合并单元格</div>
+        <div><span class="info">[提取]</span> 完成，共 <span class="ok">720</span> 行有效数据</div>
+        <div><span class="info">[保存]</span> Excel 已保存: 客户台账_2026_提取结果.xlsx</div>
+        <div><span class="ok">[完成]</span> ✅ 提取成功！</div>
+      </div>
+    </div>
+
+    <!-- 底部操作 -->
+    <div class="footer">
+      <div class="progress"><div class="progress-bar"></div></div>
+      <button class="btn btn-warning">🔎 预览数据</button>
+      <button class="btn btn-success">▶ 开始提取</button>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
