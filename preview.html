@@ -2,322 +2,615 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>Word表格数据提取工具 - 界面预览</title>
+<title>Word表格数据提取工具</title>
 <style>
+  /* ========== 设计变量 ========== */
+  :root {
+    --primary: #4F46E5;
+    --primary-hover: #4338CA;
+    --primary-light: #EEF2FF;
+    --success: #10B981;
+    --success-hover: #059669;
+    --warning: #F59E0B;
+    --warning-hover: #D97706;
+    --danger: #EF4444;
+
+    --bg-page: #F3F4F6;
+    --bg-card: #FFFFFF;
+    --bg-hover: #F9FAFB;
+    --bg-input: #FFFFFF;
+    --bg-input-readonly: #F3F4F6;
+
+    --border: #E5E7EB;
+    --border-focus: #4F46E5;
+
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --text-tertiary: #9CA3AF;
+    --text-inverse: #FFFFFF;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+
+    --font: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", "Consolas", "Cascadia Code", monospace;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
   body {
-    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
-    background: #f0f0f0;
-    padding: 24px;
+    font-family: var(--font);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    padding: 28px 16px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
   }
-  .window {
-    width: 820px;
-    background: #f0f0f0;
-    border: 1px solid #c0c0c0;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+
+  /* ========== 窗口壳 ========== */
+  .app {
+    width: 880px;
+    background: var(--bg-page);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 20px 60px -20px rgba(0,0,0,0.25);
+  }
+
+  /* ========== 顶部栏 ========== */
+  .topbar {
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 60%, #8B5CF6 100%);
+    color: var(--text-inverse);
+    padding: 18px 24px 16px;
+    position: relative;
     overflow: hidden;
   }
-  .title-bar {
-    background: linear-gradient(180deg, #4a90e2, #357abd);
-    color: #fff;
-    padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .title-bar .dots span {
-    display: inline-block;
-    width: 12px; height: 12px;
+  .topbar::before {
+    content: "";
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
     border-radius: 50%;
+  }
+  .topbar::after {
+    content: "";
+    position: absolute;
+    right: 60px; bottom: -60px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+    border-radius: 50%;
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .logo {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .title-group h1 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .title-group p {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+  .badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* ========== 主体 ========== */
+  .main {
+    padding: 18px;
+    background: var(--bg-page);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* ========== 卡片 ========== */
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head .ic {
+    width: 26px; height: 26px;
+    border-radius: var(--radius-sm);
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .card-head h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .card-head .sub {
+    font-size: 12px;
+    color: var(--text-tertiary);
     margin-left: 4px;
   }
-  .dots span:nth-child(1) { background: #ff5f57; }
-  .dots span:nth-child(2) { background: #febc2e; }
-  .dots span:nth-child(3) { background: #28c840; }
+  .card-body { padding: 16px 18px; }
 
-  .content { padding: 12px; }
-
-  .group {
-    background: #f0f0f0;
-    border: 1px solid #b0b0b0;
-    border-radius: 4px;
-    padding: 6px 10px 10px;
-    margin-bottom: 8px;
+  /* ========== 文件选择 ========== */
+  .file-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
   }
-  .group-title {
-    font-size: 13px;
-    font-weight: bold;
-    color: #222;
-    background: #f0f0f0;
-    padding: 0 8px;
-    margin-top: -14px;
-    display: inline-block;
-  }
-  .group-title span { color: #4472C4; margin-right: 4px; }
-
-  .row { display: flex; align-items: center; margin: 8px 4px; gap: 6px; }
-  .row2 { display: flex; align-items: center; margin: 8px 4px; gap: 6px; }
-
-  label.lbl {
-    font-size: 13px;
-    color: #222;
-    width: 92px;
-    flex-shrink: 0;
-  }
-  input[type="text"], input[type="number"] {
-    border: 1px solid #b0b0b0;
-    background: #fff;
-    padding: 4px 8px;
-    font-size: 13px;
-    font-family: inherit;
-    border-radius: 3px;
-    outline: none;
-  }
-  input[type="text"] { flex: 1; min-width: 0; }
-  input[type="number"] { width: 72px; text-align: center; }
-  input:focus { border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74,144,226,0.2); }
-
-  button.btn-browse {
-    background: linear-gradient(180deg, #f8f8f8, #e0e0e0);
-    border: 1px solid #b0b0b0;
-    padding: 4px 14px;
+  .file-row:last-child { margin-bottom: 0; }
+  .file-row label {
     font-size: 12px;
-    border-radius: 3px;
-    cursor: pointer;
-    min-width: 72px;
-  }
-  button.btn-browse:hover { background: linear-gradient(180deg, #fff, #e8e8e8); }
-
-  .auto-detect {
-    background: #E8F4FD;
-    border: 1px solid #6BADE8;
-    color: #1F4E79;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
+    color: var(--text-secondary);
     font-weight: 500;
+    text-align: right;
   }
-  .auto-detect:hover { background: #D6EAF8; }
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap::before {
+    content: "";
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    width: 14px; height: 14px;
+    background: var(--text-tertiary);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background-repeat: no-repeat;
+  }
+  .input-wrap.docx::before {
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>");
+  }
+  .input-wrap.xlsx::before {
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>");
+  }
+  input.f-path {
+    width: 100%;
+    padding: 9px 12px 9px 34px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-family: var(--font-mono);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input.f-path:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+  }
+  input.f-path[readonly] { color: var(--text-secondary); }
 
-  .check-row {
-    display: flex;
-    gap: 24px;
-    margin: 6px 4px 2px;
-  }
-  .check-row label {
-    font-size: 13px;
-    color: #222;
+  /* ========== 按钮 ========== */
+  .btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font);
     cursor: pointer;
-    display: flex;
+    transition: all 0.15s;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-  }
-  .check-row input { accent-color: #4472C4; width: 14px; height: 14px; }
-
-  /* 预览区 */
-  .table-wrap {
-    background: #fff;
-    border: 1px solid #b0b0b0;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  table.preview {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    font-family: "Consolas", "Microsoft YaHei", monospace;
-  }
-  table.preview th {
-    background: #4472C4;
-    color: #fff;
-    padding: 6px 8px;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid #B4B4B4;
-    font-size: 12px;
-  }
-  table.preview td {
-    padding: 5px 8px;
-    border: 1px solid #D0D0D0;
-    text-align: center;
-    color: #333;
     white-space: nowrap;
   }
-  table.preview tr:nth-child(even) td { background: #fafbfc; }
-  table.preview tr:hover td { background: #E8F4FD; }
-
-  /* 日志区 */
-  .log {
-    background: #1E1E1E;
-    color: #D4D4D4;
-    font-family: "Consolas", "Courier New", monospace;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 3px;
-    height: 120px;
-    overflow: auto;
-    border: 1px solid #333;
+  .btn-ghost {
+    background: var(--bg-input);
+    border-color: var(--border);
+    color: var(--text-primary);
   }
-  .log .info { color: #9CDCFE; }
-  .log .ok { color: #4EC9B0; }
-  .log .warn { color: #CE9178; }
-  .log .err { color: #F44747; }
+  .btn-ghost:hover { background: var(--bg-hover); border-color: #D1D5DB; }
+  .btn-outline {
+    background: transparent;
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-light); }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--text-inverse);
+    border-color: var(--primary);
+  }
+  .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+  .btn-success {
+    background: var(--success);
+    color: var(--text-inverse);
+    border-color: var(--success);
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn-success:hover { background: var(--success-hover); border-color: var(--success-hover); box-shadow: var(--shadow-hover); }
+  .btn-warning {
+    background: var(--warning);
+    color: var(--text-inverse);
+    border-color: var(--warning);
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn-warning:hover { background: var(--warning-hover); border-color: var(--warning-hover); box-shadow: var(--shadow-hover); }
 
-  /* 底部 */
-  .footer {
+  /* ========== 参数配置 ========== */
+  .params-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px 18px;
+  }
+  .param-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .param-item label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .param-item .ctrl-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  input.f-num {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-align: center;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input.f-num:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+  }
+  .tilde { color: var(--text-tertiary); font-weight: 500; }
+
+  .detect-row {
+    grid-column: 4 / 5;
+    align-self: end;
+  }
+
+  .checks {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    gap: 28px;
+  }
+  .checks label {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 4px 2px;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+  }
+  .checks input[type="checkbox"] {
+    width: 15px; height: 15px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  /* ========== 预览表 ========== */
+  table.tbl {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+  }
+  table.tbl thead th {
+    background: #F8FAFC;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.tbl thead th:first-child { border-top-left-radius: var(--radius-sm); }
+  table.tbl thead th:last-child { border-top-right-radius: var(--radius-sm); }
+  table.tbl tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  table.tbl tbody tr:last-child td { border-bottom: none; }
+  table.tbl tbody tr:hover td { background: #F8FAFC; }
+  table.tbl tbody td.col-title {
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    font-family: var(--font);
+  }
+
+  /* ========== 日志 ========== */
+  .log {
+    background: #0F172A;
+    color: #CBD5E1;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    height: 130px;
+    overflow: auto;
+    line-height: 1.7;
+  }
+  .log .ts { color: #64748B; margin-right: 8px; }
+  .log .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-right: 8px;
+    letter-spacing: 0.3px;
+  }
+  .log .tag.info    { background: rgba(96,165,250,0.15); color: #60A5FA; }
+  .log .tag.ok      { background: rgba(52,211,153,0.15); color: #34D399; }
+  .log .tag.warn    { background: rgba(251,191,36,0.15); color: #FBBF24; }
+  .log .tag.err     { background: rgba(248,113,113,0.15); color: #F87171; }
+  .log .hl { color: #A78BFA; font-weight: 500; }
+
+  /* ========== 底部操作栏 ========== */
+  .actionbar {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ab-info {
+    flex: 1;
+  }
+  .ab-stat {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat .v {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    font-family: var(--font-mono);
+  }
+  .stat .l {
+    font-size: 11px;
+    color: var(--text-tertiary);
   }
   .progress {
-    flex: 1;
-    height: 18px;
-    background: #e0e0e0;
-    border: 1px solid #b0b0b0;
-    border-radius: 3px;
+    width: 160px;
+    height: 6px;
+    background: #E5E7EB;
+    border-radius: 4px;
     overflow: hidden;
   }
   .progress-bar {
     height: 100%;
     width: 65%;
-    background: linear-gradient(90deg, #4472C4, #5B9BD5);
-    transition: width 0.3s;
-  }
-
-  button.btn {
-    padding: 7px 16px;
+    background: linear-gradient(90deg, var(--primary), #818CF8);
     border-radius: 4px;
-    border: 1px solid transparent;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    min-width: 100px;
   }
-  .btn-warning {
-    background: #FFC107;
-    color: #333;
-    border-color: #E0A800;
+  .ab-buttons {
+    display: flex;
+    gap: 10px;
   }
-  .btn-warning:hover { background: #FFD54F; }
-  .btn-success {
-    background: #4CAF50;
-    color: #fff;
-    border-color: #388E3C;
-  }
-  .btn-success:hover { background: #66BB6A; }
 
-  .data-range { display: flex; align-items: center; gap: 4px; }
-  .data-range input { width: 58px; text-align: center; }
-  .data-range .tilde { color: #666; font-weight: bold; }
 </style>
 </head>
 <body>
 
-<div class="window">
-  <div class="title-bar">
-    <span>📊 Word表格数据提取工具 v1.0</span>
-    <div class="dots"><span></span><span></span><span></span></div>
+<div class="app">
+
+  <!-- 顶部栏 -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">📊</div>
+      <div class="title-group">
+        <h1>Word 表格数据提取工具</h1>
+        <p>一键将多页 Word 表格汇总到 Excel</p>
+      </div>
+      <span class="badge">v1.0 · Windows</span>
+    </div>
   </div>
 
-  <div class="content">
+  <!-- 主体 -->
+  <div class="main">
 
-    <!-- 文件选择 -->
-    <div class="group">
-      <div class="group-title"><span>📁</span>文件选择</div>
-      <div class="row">
-        <label class="lbl">Word 文件：</label>
-        <input type="text" value="D:\业务数据\客户台账_2026.docx" readonly>
-        <button class="btn-browse">浏览...</button>
+    <!-- 文件选择 + 参数 合并为一个操作卡 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="ic">📁</div>
+        <h2>文件与参数</h2>
+        <span class="sub">配置输入输出路径和表格结构</span>
       </div>
-      <div class="row">
-        <label class="lbl">Excel 输出：</label>
-        <input type="text" value="D:\业务数据\客户台账_2026_提取结果.xlsx" readonly>
-        <button class="btn-browse">浏览...</button>
-      </div>
-    </div>
-
-    <!-- 参数配置 -->
-    <div class="group">
-      <div class="group-title"><span>⚙️</span>表格参数配置</div>
-      <div class="row2">
-        <label class="lbl">每页表格列数：</label>
-        <input type="number" value="5" min="1">
-        <label class="lbl" style="margin-left:12px">每页表格行数：</label>
-        <input type="number" value="30" min="1">
-        <button class="auto-detect" style="margin-left:auto">🔍 自动检测表格结构</button>
-      </div>
-      <div class="row2">
-        <label class="lbl">标题列索引：</label>
-        <input type="number" value="0" min="0">
-        <label class="lbl" style="margin-left:12px">数据列范围：</label>
-        <div class="data-range">
-          <input type="number" value="1" min="0">
-          <span class="tilde">~</span>
-          <input type="number" value="3" min="0">
+      <div class="card-body">
+        <!-- 文件 -->
+        <div class="file-row">
+          <label>Word 文件</label>
+          <div class="input-wrap docx">
+            <input type="text" class="f-path" value="D:\业务数据\客户台账_2026.docx" readonly>
+          </div>
+          <button class="btn btn-ghost">浏览…</button>
         </div>
-      </div>
-      <div class="check-row">
-        <label><input type="checkbox"> 跳过每页第一行（若为表头）</label>
-        <label><input type="checkbox" checked> 导出结果中包含标题列</label>
+        <div class="file-row">
+          <label>Excel 输出</label>
+          <div class="input-wrap xlsx">
+            <input type="text" class="f-path" value="D:\业务数据\客户台账_2026_提取结果.xlsx" readonly>
+          </div>
+          <button class="btn btn-ghost">浏览…</button>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <!-- 参数 -->
+        <div class="params-grid">
+          <div class="param-item">
+            <label>表格列数</label>
+            <input type="text" class="f-num" value="5">
+          </div>
+          <div class="param-item">
+            <label>表格行数</label>
+            <input type="text" class="f-num" value="30">
+          </div>
+          <div class="param-item">
+            <label>标题列索引 (0 起)</label>
+            <input type="text" class="f-num" value="0">
+          </div>
+          <div class="param-item">
+            <label>数据列范围</label>
+            <div class="ctrl-row">
+              <input type="text" class="f-num" value="1" style="flex:1">
+              <span class="tilde">~</span>
+              <input type="text" class="f-num" value="3" style="flex:1">
+            </div>
+          </div>
+        </div>
+
+        <div class="checks">
+          <label><input type="checkbox"> 跳过每页第一行（表头）</label>
+          <label><input type="checkbox" checked> 导出结果中包含标题列</label>
+          <div style="margin-left:auto">
+            <button class="btn btn-outline">🔍 自动检测结构</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- 预览 -->
-    <div class="group">
-      <div class="group-title"><span>🔎</span>数据预览（前10行）</div>
-      <div class="table-wrap">
-        <table class="preview">
+    <div class="card">
+      <div class="card-head">
+        <div class="ic" style="background:#FEF3C7;color:#B45309;">👁</div>
+        <h2>数据预览</h2>
+        <span class="sub">显示前 10 行提取结果</span>
+      </div>
+      <div class="card-body" style="padding:0 18px 14px">
+        <table class="tbl">
           <thead>
             <tr>
-              <th>标题列 (Col1)</th>
-              <th>数据列 (Col2)</th>
-              <th>数据列 (Col3)</th>
-              <th>数据列 (Col4)</th>
+              <th style="width:18%">Col 1 · 标题列</th>
+              <th>Col 2</th>
+              <th>Col 3</th>
+              <th>Col 4</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>姓名</td><td>张三</td><td>男</td><td>1985-03-12</td></tr>
-            <tr><td>电话</td><td>13800138001</td><td>手机</td><td>已验证</td></tr>
-            <tr><td>地址</td><td>北京市朝阳区</td><td>建国路88号</td><td>SOHO现代城</td></tr>
-            <tr><td>邮箱</td><td>zhangsan@example.com</td><td>工作</td><td>活跃用户</td></tr>
-            <tr><td>公司</td><td>科技有限公司</td><td>研发部</td><td>高级工程师</td></tr>
-            <tr><td>入职日期</td><td>2018-07-01</td><td>正式员工</td><td>已过试用期</td></tr>
-            <tr><td>部门电话</td><td>010-88886666</td><td>分机 101</td><td>工作日 9-18</td></tr>
-            <tr><td>紧急联系人</td><td>李四</td><td>13900139002</td><td>配偶</td></tr>
-            <tr><td>备注</td><td>VIP 客户</td><td>合同期内</td><td>信用良好</td></tr>
-            <tr><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+            <tr><td class="col-title">姓名</td><td>张三</td><td>男</td><td>1985-03-12</td></tr>
+            <tr><td class="col-title">电话</td><td>13800138001</td><td>手机</td><td>已验证</td></tr>
+            <tr><td class="col-title">地址</td><td>北京市朝阳区</td><td>建国路 88 号</td><td>SOHO 现代城</td></tr>
+            <tr><td class="col-title">邮箱</td><td>zhangsan@example.com</td><td>工作</td><td>活跃用户</td></tr>
+            <tr><td class="col-title">公司</td><td>科技有限公司</td><td>研发部</td><td>高级工程师</td></tr>
+            <tr><td class="col-title">入职日期</td><td>2018-07-01</td><td>正式员工</td><td>已过试用期</td></tr>
+            <tr><td class="col-title">部门电话</td><td>010-88886666</td><td>分机 101</td><td>工作日 9-18</td></tr>
+            <tr><td class="col-title">紧急联系人</td><td>李四</td><td>13900139002</td><td>配偶</td></tr>
+            <tr><td class="col-title">备注</td><td>VIP 客户</td><td>合同期内</td><td>信用良好</td></tr>
+            <tr><td class="col-title">…</td><td>…</td><td>…</td><td>…</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- 日志 -->
-    <div class="group">
-      <div class="group-title"><span>📜</span>运行日志</div>
-      <div class="log">
-        <div><span class="info">[读取]</span> 正在解析 Word 文档...</div>
-        <div><span class="info">[读取]</span> 共发现 <span class="ok">24</span> 个表格</div>
-        <div><span class="info">[结构]</span> 每个表格约 <span class="ok">30行 × 5列</span></div>
-        <div><span class="info">[提取]</span> 已处理 12/24 个表格...</div>
-        <div><span class="warn">[提示]</span> 检测到第 7 个表格第 3 行存在合并单元格</div>
-        <div><span class="info">[提取]</span> 完成，共 <span class="ok">720</span> 行有效数据</div>
-        <div><span class="info">[保存]</span> Excel 已保存: 客户台账_2026_提取结果.xlsx</div>
-        <div><span class="ok">[完成]</span> ✅ 提取成功！</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="ic" style="background:#DBEAFE;color:#1D4ED8;">📜</div>
+        <h2>运行日志</h2>
+        <span class="sub">实时显示处理进度</span>
+      </div>
+      <div class="card-body" style="padding:14px 18px">
+        <div class="log">
+          <div><span class="ts">09:32:01</span><span class="tag info">INFO</span>正在解析 Word 文档...</div>
+          <div><span class="ts">09:32:01</span><span class="tag info">INFO</span>共发现 <span class="hl">24</span> 个表格</div>
+          <div><span class="ts">09:32:02</span><span class="tag info">INFO</span>每个表格约 <span class="hl">30 行 × 5 列</span></div>
+          <div><span class="ts">09:32:03</span><span class="tag warn">WARN</span>第 7 页第 3 行存在合并单元格，已自动处理</div>
+          <div><span class="ts">09:32:05</span><span class="tag info">INFO</span>已完成 12 / 24 个表格</div>
+          <div><span class="ts">09:32:08</span><span class="tag info">INFO</span>提取完成，共 <span class="hl">720</span> 行有效数据</div>
+          <div><span class="ts">09:32:08</span><span class="tag info">INFO</span>正在写入 Excel...</div>
+          <div><span class="ts">09:32:09</span><span class="tag ok">DONE</span>✅ 提取成功！文件已保存</div>
+        </div>
       </div>
     </div>
 
-    <!-- 底部操作 -->
-    <div class="footer">
-      <div class="progress"><div class="progress-bar"></div></div>
-      <button class="btn btn-warning">🔎 预览数据</button>
-      <button class="btn btn-success">▶ 开始提取</button>
+    <!-- 底部操作栏 -->
+    <div class="actionbar">
+      <div class="ab-info">
+        <div class="ab-stat">
+          <div class="stat">
+            <span class="v">24</span>
+            <span class="l">待处理表格</span>
+          </div>
+          <div class="stat">
+            <span class="v">720</span>
+            <span class="l">预期行数</span>
+          </div>
+          <div class="stat" style="margin-left:10px">
+            <div class="progress"><div class="progress-bar"></div></div>
+            <span class="l">进度 65%</span>
+          </div>
+        </div>
+      </div>
+      <div class="ab-buttons">
+        <button class="btn btn-warning">👁 预览数据</button>
+        <button class="btn btn-success">▶ 开始提取</button>
+      </div>
     </div>
 
   </div>
