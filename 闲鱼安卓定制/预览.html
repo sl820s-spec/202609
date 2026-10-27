@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>闲鱼「安卓 App 定制」图文文案包</title>
+<style>
+  :root{
+    --bg:#080c18; --bg2:#0e1428; --panel:rgba(255,255,255,.045);
+    --line:rgba(255,255,255,.09); --text:#eef3ff; --muted:#93a1c2;
+    --green:#7effba; --green2:#00d08c; --amber:#ffc55c;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 700px at 85% -10%, #103a2e 0%, transparent 60%),
+                radial-gradient(900px 600px at -10% 100%, #16224d 0%, transparent 60%),
+                var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.75;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:56px 28px 100px}
+  .eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:44px;line-height:1.2;margin:0 0 14px;letter-spacing:-.02em}
+  h1 em{font-style:normal;color:var(--green)}
+  .lead{color:var(--muted);font-size:16px;max-width:660px;margin:0}
+  .facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+  .fact b{display:block;font-size:24px;letter-spacing:-.01em}
+  .fact span{font-size:13px;color:var(--muted)}
+  section{margin-top:64px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .sec-num{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--green);opacity:.8}
+  h2{font-size:22px;margin:0;letter-spacing:-.01em}
+  .hint{color:var(--muted);font-size:13px;margin-left:auto}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}h1{font-size:34px}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  figure img{display:block;width:100%;height:auto;cursor:zoom-in}
+  figcaption{padding:12px 14px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line)}
+  figcaption b{color:var(--text);font-weight:600}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px}
+  .card-top{display:flex;align-items:center;gap:10px;padding:12px 14px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green2);box-shadow:0 0 12px var(--green2)}
+  .card-top span{font-size:13px;color:var(--muted)}
+  button.copy{
+    margin-left:auto;border:1px solid rgba(126,255,186,.35);background:rgba(126,255,186,.1);
+    color:var(--green);font-size:12.5px;padding:6px 14px;border-radius:99px;cursor:pointer;
+    font-family:inherit;transition:.18s;
+  }
+  button.copy:hover{background:rgba(126,255,186,.2)}
+  pre{
+    margin:0;padding:18px 20px;background:rgba(0,0,0,.32);border-radius:11px;
+    font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14.5px;line-height:1.9;
+    white-space:pre-wrap;word-break:break-word;color:#dbe4fb;border:1px solid rgba(255,255,255,.05);
+  }
+  pre.mono{font-family:ui-monospace,Menlo,monospace;font-size:13.5px;line-height:1.8}
+  #tags{word-break:keep-all}
+  .titles{display:grid;gap:14px}
+  .row{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+  .row .idx{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--green);opacity:.7;min-width:18px}
+  .row p{margin:0;font-size:15.5px;flex:1}
+  .row p small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:860px){.two{grid-template-columns:1fr}}
+  ul.clean{margin:0;padding-left:18px;color:#cfd9f2;font-size:14.5px}
+  ul.clean li{margin:7px 0}
+  ul.clean li b{color:var(--green);font-weight:600}
+  .checks{list-style:none;margin:0;padding:0}
+  .checks li{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed rgba(255,255,255,.07);font-size:14.5px;color:#d5def6}
+  .checks li:last-child{border:0}
+  .box{width:17px;height:17px;border:1.5px solid rgba(126,255,186,.5);border-radius:5px;flex:0 0 auto;margin-top:3px}
+  .warn{border-left:2px solid var(--amber);background:rgba(255,197,92,.07);padding:16px 20px;border-radius:0 10px 10px 0;color:#e8dfc8;font-size:14px}
+  .warn b{color:var(--amber)}
+  footer{margin-top:70px;padding-top:24px;border-top:1px solid var(--line);color:#5f6c8a;font-size:12.5px}
+  #lb{position:fixed;inset:0;background:rgba(4,7,14,.92);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:24px}
+  #lb.on{display:flex}
+  #lb img{max-width:min(560px,92vw);max-height:92vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">XIANYU · LISTING KIT</div>
+  <h1>安卓 App 定制<br><em>图文文案包</em></h1>
+  <p class="lead">7 张 3:4 竖版成品图（1080×1440，可直接上传）+ 一套能直接复制的标题、正文、标签与私信话术。所有文案都在下面，点「复制」即可。</p>
+
+  <div class="facts">
+    <div class="fact"><b>7 张</b><span>成品图 · 3:4 竖版</span></div>
+    <div class="fact"><b>1080×1440</b><span>闲鱼详情页推荐尺寸</span></div>
+    <div class="fact"><b>¥199 起</b><span>三档报价，可自行调整</span></div>
+    <div class="fact"><b>学生课设</b><span>主打人群定位</span></div>
+  </div>
+
+  <!-- 01 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>成品图</h2><span class="hint">点击图片放大查看 · 文件夹内为原图</span></div>
+    <div class="grid">
+      <figure><img src="01-封面.png" alt="封面"><figcaption><b>01 封面</b> · 第一张，决定点击率</figcaption></figure>
+      <figure><img src="02-能做什么.png" alt="能做什么"><figcaption><b>02 能做什么</b> · 让买家对号入座</figcaption></figure>
+      <figure><img src="03-交付清单.png" alt="交付清单"><figcaption><b>03 交付清单</b> · 打消「只给个包」的顾虑</figcaption></figure>
+      <figure><img src="04-价格.png" alt="价格"><figcaption><b>04 价格</b> · 透明报价，减少无效问价</figcaption></figure>
+      <figure><img src="05-流程.png" alt="流程"><figcaption><b>05 流程</b> · 分阶段确认，建立安全感</figcaption></figure>
+      <figure><img src="06-接单范围.png" alt="接单范围"><figcaption><b>06 接单范围</b> · 提前筛掉不合适的买家</figcaption></figure>
+      <figure><img src="07-常见问题.png" alt="常见问题"><figcaption><b>07 常见问题</b> · 把重复问题一次答完</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>标题（三选一）</h2><span class="hint">控制在 30 字内</span></div>
+    <div class="titles">
+      <div class="row"><span class="idx">A</span><p>安卓App定制开发 课设毕设 源码可跑通<small>推荐 · 关键词覆盖「安卓 App 定制 / 课设 / 毕设 / 源码」，无敏感词</small></p>
+        <button class="copy" onclick="copyText('t1',this)">复制</button>
+        <pre id="t1" hidden>安卓App定制开发 课设毕设 源码可跑通</pre>
+      </div>
+      <div class="row"><span class="idx">B</span><p>安卓软件定制 课程设计 毕业设计 带源码讲解<small>偏「软件定制」，适合接企业小工具</small></p>
+        <button class="copy" onclick="copyText('t2',this)">复制</button>
+        <pre id="t2" hidden>安卓软件定制 课程设计 毕业设计 带源码讲解</pre>
+      </div>
+      <div class="row"><span class="idx">C</span><p>代做安卓小工具App 课设毕设 可远程跑通<small>「代做」流量大但审核风险略高，慎用</small></p>
+        <button class="copy" onclick="copyText('t3',this)">复制</button>
+        <pre id="t3" hidden>代做安卓小工具App 课设毕设 可远程跑通</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>正文</h2><span class="hint">整段复制，不要留微信 / QQ</span></div>
+    <div class="card">
+      <div class="card-top"><span class="dot"></span><span>闲鱼商品描述 · 纯文本</span>
+        <button class="copy" onclick="copyText('body',this)">复制正文</button>
+      </div>
+      <pre id="body">▍先说重点
+安卓 App 定制开发，从一句需求，做到能装到手机上真的能用。
+课程设计 / 毕业设计 / 小工具 / 工具类 App 都能接。
+¥199 起，按功能报价，谈定不加价。
+
+▍能做什么
+· 登录注册、页面导航、列表详情
+· 本地数据库、增删改查、离线可用
+· 图表统计、数据看板
+· 接口对接（后端 API、天气、地图、登录鉴权）
+· 拍照上传、扫码识别、文件读写
+· 蓝牙 / 串口设备连接、实时数据
+· App + Web 后台整套打通
+
+▍交付什么
+✓ 完整源码：Android Studio 工程，可直接导入编译，不是反编译产物
+✓ 可运行 APK：装机即用，附安装说明
+✓ 需求文档：功能清单、页面说明、数据结构，写报告直接能用
+✓ 使用说明：怎么跑、怎么改、常见报错怎么处理
+✓ 远程陪跑：帮你把环境跑通，依赖版本我负责
+✓ 答辩要点：每个模块怎么实现、为什么这么设计，讲得明白
+
+▍价格参考（按功能报价，最终以沟通后的清单为准）
+¥199 起｜单页面小工具、课程 Demo，3–5 天
+¥399 起｜完整课设：登录 + 数据库 + 多页面 + 界面美化，5–7 天
+¥699 起｜毕设级：多模块 + 图表 + 接口 / 后台，7–15 天
+加急 / 二次开发 / 长期维护，价格另议。
+
+▍怎么合作
+1. 私信说需求：有文档发文档，没文档就说想法 + 一个参考 App
+2. 我给功能清单、固定价和工期，确认后再开工
+3. 分阶段看进度：界面 → 功能 → 打包，每个节点给你截图或录屏
+4. 验收通过 → 交源码和文档 → 平台确认收货
+
+▍事先说明
+· 不接：外挂、破解、作弊类，抓取隐私数据，赌博擦边，仿冒他人品牌，刷量刷单，代写代考。
+· 报价以沟通后的功能清单为准；需求变更按新增功能补差价，先说价再动手。
+· 全程平台交易，不走私下转账，你我都安心。
+
+▍私信格式
+需求一句话 + 参考 App + 截止时间（有文档直接发）。
+看到就回，先免费帮你判断能不能做。</pre>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>标签 · 上传顺序 · 私信模板</h2></div>
+    <div class="two">
+      <div class="card">
+        <div class="card-top"><span class="dot"></span><span>话题标签</span>
+          <button class="copy" onclick="copyText('tags',this)">复制</button>
+        </div>
+        <pre id="tags" class="mono">#安卓开发  #App定制  #课程设计  #毕业设计  #安卓源码  #软件定制  #大学生课设</pre>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="dot"></span><span>图片上传顺序</span></div>
+        <ul class="clean" style="padding:14px 20px 18px 34px">
+          <li><b>01 封面</b> — 首图，决定点击率</li>
+          <li><b>02 能做什么</b> — 买家真正会看的第二张</li>
+          <li><b>03 交付清单</b> — 解决核心顾虑</li>
+          <li><b>04 价格</b> — 不要藏到最后</li>
+          <li><b>05 流程 / 06 范围 / 07 FAQ</b> — 建立信任、过滤无效咨询</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <div class="card-top"><span class="dot"></span><span>私信自动回复模板</span>
+        <button class="copy" onclick="copyText('reply',this)">复制</button>
+      </div>
+      <pre id="reply">【收到第一条咨询】
+你好，安卓 App 定制这边可以接。
+为了给你准确报价，麻烦说三件事：
+1）要做成什么样（一句话就行，有文档/截图直接发）
+2）有没有参考的 App
+3）最晚什么时候要
+我一般当天给功能清单和固定价，谈定不加价。
+
+【对方只问「多少钱」】
+价格看功能，¥199 起。
+告诉我「大概几个页面 + 要不要登录/数据库 + 要不要连后台」，我就能给固定价，不用你先交钱。
+
+【对方要加急】
+可以先说截止时间，我排得开就接，排不开我直接告诉你，不接还拖着最耽误事。</pre>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>发布前检查</h2></div>
+    <div class="two">
+      <div class="card" style="padding:10px 22px">
+        <ul class="checks">
+          <li><i class="box"></i>图片按 01→07 顺序上传，首图用 01-封面</li>
+          <li><i class="box"></i>标题用 A 方案，正文整段复制</li>
+          <li><i class="box"></i>价格栏填 199，正文写清「起」</li>
+          <li><i class="box"></i>类目选「服务 → 软件开发 / 技术服务」</li>
+          <li><i class="box"></i>开启消息提醒，咨询 10 分钟内回</li>
+          <li><i class="box"></i>前 3 单适当让价换好评，评分起来后有自然流量</li>
+        </ul>
+      </div>
+      <div>
+        <div class="warn"><b>两个容易踩的坑：</b><br>
+          1. 描述里留微信 / QQ / 手机号，容易被限流或删帖，一律引导「私信」。<br>
+          2. 慎用「代做、包过、代写论文」这类词，用「定制 / 开发 / 讲解」更稳。</div>
+        <div class="warn" style="margin-top:16px;border-color:var(--green);background:rgba(126,255,186,.06);color:#cfe6dd"><b style="color:var(--green)">可替换项：</b>
+          价格档位（199 / 399 / 699）、周期天数、以及「远程陪跑」「答辩要点」这类承诺——不提供的服务务必删掉，别为了好看写上去。</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>文件清单：01–07 成品图（PNG 1080×1440）、闲鱼文案.txt（纯文本版）、预览.html（本页）。<br>文案为模板，价格与服务承诺请按自身情况调整后发布。</footer>
+</div>
+
+<div id="lb" onclick="this.classList.remove('on')"><img id="lbimg" src="" alt=""></div>
+<script>
+  function copyText(id, btn){
+    const el = document.getElementById(id);
+    const text = (el.tagName === 'PRE' ? el.textContent : el.innerText).trim();
+    const done = () => { const o = btn.textContent; btn.textContent = '已复制'; setTimeout(()=>btn.textContent=o,1500); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text, done));
+    } else { fallback(text, done); }
+  }
+  function fallback(text, done){
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e){ alert('复制失败，请手动选中复制'); }
+    ta.remove(); done();
+  }
+  document.querySelectorAll('.grid img').forEach(img=>{
+    img.addEventListener('click', ()=>{ document.getElementById('lbimg').src = img.src; document.getElementById('lb').classList.add('on'); });
+  });
+</script>
+</body>
+</html>
