@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>富顺三口之家 · 一周食谱</title>
+<style>
+  :root{
+    --paper:#FBF6EC;
+    --card:#FFFDF8;
+    --ink:#332A22;
+    --muted:#7C6F61;
+    --line:#E6DAC6;
+    --accent:#B5532F;
+    --green:#4A6B50;
+    --gold:#C08A3E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 12% 8%, rgba(192,138,62,.10), transparent 38%),
+      radial-gradient(circle at 88% 92%, rgba(74,107,80,.10), transparent 42%),
+      var(--paper);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+    line-height:1.75;
+    padding:44px 24px 60px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;}
+
+  /* ---------- header ---------- */
+  header{text-align:center;margin-bottom:40px;}
+  .eyebrow{
+    font-size:12px;letter-spacing:.32em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:14px;font-weight:600;
+  }
+  h1{
+    font-family:"Songti SC","Noto Serif SC","STSong",serif;
+    font-size:44px;font-weight:700;letter-spacing:.12em;
+    line-height:1.2;margin-bottom:14px;
+  }
+  .subtitle{font-size:15px;color:var(--muted);letter-spacing:.04em;}
+  .rule{
+    width:64px;height:2px;background:var(--accent);
+    margin:22px auto 0;position:relative;
+  }
+  .rule::before,.rule::after{
+    content:"";position:absolute;top:-2px;width:6px;height:6px;
+    background:var(--accent);border-radius:50%;
+  }
+  .rule::before{left:-14px;}
+  .rule::after{right:-14px;}
+
+  /* ---------- standards ---------- */
+  .standards{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    margin:34px 0 46px;
+  }
+  .std{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:16px 16px 15px;text-align:center;
+  }
+  .std .k{font-size:11px;letter-spacing:.18em;color:var(--muted);margin-bottom:6px;}
+  .std .v{font-size:15px;font-weight:700;letter-spacing:.02em;}
+  .std .v small{font-size:11px;font-weight:400;color:var(--muted);margin-left:2px;}
+
+  /* ---------- section ---------- */
+  .sec-title{
+    display:flex;align-items:center;gap:14px;
+    font-family:"Songti SC","Noto Serif SC",serif;
+    font-size:20px;letter-spacing:.14em;font-weight:700;
+    margin:0 0 20px;
+  }
+  .sec-title::after{content:"";flex:1;height:1px;background:var(--line);}
+  .sec-title span{color:var(--accent);font-size:12px;letter-spacing:.16em;font-family:inherit;font-weight:400;}
+
+  /* ---------- day grid ---------- */
+  .week{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:52px;}
+  .day{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:20px 22px 18px;
+    box-shadow:0 2px 0 rgba(51,42,34,.02),0 10px 24px -18px rgba(51,42,34,.35);
+    position:relative;
+    break-inside:avoid;
+  }
+  .day::before{
+    content:"";position:absolute;left:0;top:22px;bottom:22px;width:3px;
+    border-radius:0 3px 3px 0;background:var(--line);
+  }
+  .day.weekend::before{background:var(--gold);}
+  .day-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+  .no{
+    font-family:"Songti SC",serif;font-size:13px;font-weight:700;
+    color:var(--accent);letter-spacing:.08em;
+  }
+  .day-head h3{font-size:17px;font-weight:700;letter-spacing:.06em;}
+  .day-head .tag{
+    margin-left:auto;font-size:10px;letter-spacing:.12em;color:var(--muted);
+    border:1px solid var(--line);border-radius:20px;padding:2px 9px;
+  }
+  .meal{padding:10px 0;border-top:1px dashed var(--line);}
+  .meal:first-of-type{border-top:none;padding-top:0;}
+  .meal-top{display:flex;align-items:center;gap:9px;margin-bottom:5px;flex-wrap:wrap;}
+  .pill{
+    font-size:10px;letter-spacing:.14em;font-weight:600;
+    border-radius:4px;padding:2px 7px;white-space:nowrap;
+  }
+  .pill.b{background:rgba(192,138,62,.14);color:#8C5E1E;}
+  .pill.d{background:rgba(74,107,80,.13);color:var(--green);}
+  .pill.l{background:rgba(181,83,47,.12);color:var(--accent);}
+  .dish{font-size:14.5px;font-weight:700;letter-spacing:.02em;}
+  .time{font-size:11px;color:var(--muted);margin-left:auto;white-space:nowrap;}
+  .how{font-size:12px;color:var(--muted);line-height:1.7;padding-left:2px;}
+
+  /* ---------- prep / shopping ---------- */
+  .panel{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:24px 26px;margin-bottom:24px;break-inside:avoid;
+  }
+  .prep-list{list-style:none;counter-reset:p;}
+  .prep-list li{
+    counter-increment:p;position:relative;padding-left:30px;
+    font-size:13.5px;margin-bottom:9px;color:#4A3F35;
+  }
+  .prep-list li::before{
+    content:counter(p);position:absolute;left:0;top:2px;
+    width:20px;height:20px;border-radius:50%;
+    background:rgba(181,83,47,.09);color:var(--accent);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .prep-list li b{color:var(--ink);}
+  .shop{display:grid;grid-template-columns:repeat(2,1fr);gap:0 30px;}
+  .shop-col h4{
+    font-size:12.5px;letter-spacing:.16em;color:var(--accent);
+    margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid var(--line);
+  }
+  .shop-col p{font-size:12.5px;color:#4A3F35;margin-bottom:16px;line-height:1.85;}
+
+  /* ---------- notes ---------- */
+  .notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .note{font-size:12.5px;color:#4A3F35;line-height:1.8;}
+  .note b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px;letter-spacing:.04em;}
+
+  footer{
+    text-align:center;margin-top:44px;font-size:11px;color:var(--muted);letter-spacing:.14em;
+  }
+
+  @media (max-width:760px){
+    body{padding:30px 16px 44px;}
+    h1{font-size:32px;}
+    .standards{grid-template-columns:1fr 1fr;}
+    .week{grid-template-columns:1fr;}
+    .shop,.notes{grid-template-columns:1fr;}
+  }
+  @media print{
+    body{background:#fff;padding:14mm 12mm;font-size:10pt;}
+    .wrap{max-width:none;}
+    h1{font-size:26pt;}
+    header{margin-bottom:8mm;}
+    .standards{margin:5mm 0 7mm;gap:3mm;}
+    .week{grid-template-columns:1fr 1fr;gap:4mm;margin-bottom:0;}
+    .day{padding:4mm 5mm;box-shadow:none;}
+    .day-head h3{font-size:12pt;}
+    .dish{font-size:10pt;}
+    .how{font-size:8pt;}
+    .panel{padding:5mm 6mm;margin-bottom:5mm;}
+    .sec-title{font-size:13pt;margin-bottom:4mm;}
+    footer{margin-top:6mm;}
+    @page{size:A4;margin:10mm;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Fushun · Family of Three</p>
+    <h1>一周家常食谱</h1>
+    <p class="subtitle">富顺 · 夫妻二人与女儿 ｜ 秋季时令版 ｜ 每天不重样</p>
+    <div class="rule"></div>
+  </header>
+
+  <section class="standards">
+    <div class="std"><div class="k">早 餐</div><div class="v">12–20 分钟</div></div>
+    <div class="std"><div class="k">工作日晚餐</div><div class="v">30–40 分钟</div></div>
+    <div class="std"><div class="k">周末午餐</div><div class="v">60–75 分钟</div></div>
+    <div class="std"><div class="k">分 量</div><div class="v">米 2.5 杯 <small>／三菜一汤</small></div></div>
+  </section>
+
+  <section class="week">
+
+    <!-- 周一 -->
+    <article class="day">
+      <div class="day-head"><span class="no">DAY 01</span><h3>星期一</h3><span class="tag">工作日</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">番茄鸡蛋面</span><span class="time">15 分钟</span></div>
+        <p class="how">水开下挂面煮 3 分钟；另起锅把 2 个番茄切块炒出汁，加两碗水煮开，淋入蛋液（或另煎两个荷包蛋）；面条捞进汤里，撒葱花，配一小碟泡菜。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">青椒肉丝 · 蒜蓉西兰花 · 紫菜蛋花汤</span><span class="time">35 分钟</span></div>
+        <p class="how">里脊切丝，用生抽、淀粉抓匀腌 10 分钟；青椒切丝大火快炒 2 分钟再下肉丝；西兰花焯水后蒜末快炒；最后 2 分钟冲一碗紫菜蛋花汤。米饭同步在电饭煲里煮。</p>
+      </div>
+    </article>
+
+    <!-- 周二 -->
+    <article class="day">
+      <div class="day-head"><span class="no">DAY 02</span><h3>星期二</h3><span class="tag">工作日</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">醪糟小汤圆 · 荷包蛋 · 蒸红薯</span><span class="time">12 分钟</span></div>
+        <p class="how">水开下小汤圆，浮起后加两勺醪糟、少许白糖，打入鸡蛋煮 2 分钟。红薯前一晚蒸好冷藏，早上微波 2 分钟即可。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">富顺豆花 · 粉蒸排骨 · 清炒莴笋尖</span><span class="time">40 分钟</span></div>
+        <p class="how">豆花买现成的，蘸水用富顺香辣酱＋糍粑辣椒＋蒜末＋葱花。排骨拌蒸肉米粉和少许豆瓣，高压锅上汽后 15 分钟；莴笋尖蒜蓉大火快炒 2 分钟。</p>
+      </div>
+    </article>
+
+    <!-- 周三 -->
+    <article class="day">
+      <div class="day-head"><span class="no">DAY 03</span><h3>星期三</h3><span class="tag">工作日</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">葱花鸡蛋饼 · 牛奶 · 苹果</span><span class="time">12 分钟</span></div>
+        <p class="how">面粉 100g＋水 150ml＋鸡蛋 2 个＋葱花＋少许盐，搅成稀糊；平底锅刷薄油，摊两张，卷起切段。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">回锅肉 · 干煸四季豆 · 番茄蛋花汤</span><span class="time">30 分钟</span></div>
+        <p class="how">五花肉提前煮 15 分钟切薄片（可前一晚煮好冷藏）；豆瓣酱＋少许甜面酱炒香，下肉片和蒜苗。四季豆掰段干煸至虎皮状，加蒜末和一点盐。</p>
+      </div>
+    </article>
+
+    <!-- 周四 -->
+    <article class="day">
+      <div class="day-head"><span class="no">DAY 04</span><h3>星期四</h3><span class="tag">工作日</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">小米南瓜粥 · 水煮蛋 · 凉拌黄瓜</span><span class="time">8 分钟</span></div>
+        <p class="how">前一晚把小米、南瓜块和水放进电饭煲预约；早上煮蛋 8 分钟，黄瓜拍碎加蒜末、醋、少许生抽和一勺香油。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">清蒸鲈鱼 · 麻婆豆腐 · 清炒菜心</span><span class="time">35 分钟</span></div>
+        <p class="how">鲈鱼划两刀，姜葱垫底，水开后蒸 8 分钟，倒掉汤汁，淋蒸鱼豉油再泼热油。麻婆豆腐先盛出一份不辣的给女儿，再下辣椒面收汁。</p>
+      </div>
+    </article>
+
+    <!-- 周五 -->
+    <article class="day">
+      <div class="day-head"><span class="no">DAY 05</span><h3>星期五</h3><span class="tag">工作日</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">红油抄手 · 豆浆</span><span class="time">12 分钟</span></div>
+        <p class="how">用周末包好冷冻的抄手，水开煮 3 分钟。碗底放生抽、香辣酱、蒜水、葱花和一点猪油，舀入热汤和抄手；豆浆用破壁机现打或豆浆粉冲。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">咖喱鸡肉饭 · 凉拌木耳黄瓜 · 冬瓜汤</span><span class="time">35 分钟</span></div>
+        <p class="how">鸡腿肉切块煎香，加土豆、胡萝卜、咖喱块和水煮 15 分钟，浇在米饭上。木耳泡发焯水，与黄瓜同拌醋、蒜、香油。</p>
+      </div>
+    </article>
+
+    <!-- 周六 -->
+    <article class="day weekend">
+      <div class="day-head"><span class="no">DAY 06</span><h3>星期六</h3><span class="tag">周末</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">红烧牛肉面</span><span class="time">15 分钟</span></div>
+        <p class="how">周末炖好的牛肉臊子连汤加热；面条煮熟，顺手烫一把青菜，浇上臊子撒葱花。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill l">午餐</span><span class="dish">鲜椒兔 · 清炒时蔬 · 萝卜排骨汤</span><span class="time">70 分钟</span></div>
+        <p class="how">兔肉切小丁，盐、料酒、淀粉码味；大量青椒、仔姜、蒜和豆瓣炒香后下兔丁，大火收干。排骨汤用高压锅压 20 分钟，出锅前放白萝卜。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">全家包白菜猪肉饺子</span><span class="time">60 分钟</span></div>
+        <p class="how">肉末＋挤干水的白菜碎＋姜葱，调盐、生抽、香油；买现成饺子皮一起包。煮好蘸醋加香辣酱，饺子汤撒葱花，孩子也吃得开心。</p>
+      </div>
+    </article>
+
+    <!-- 周日 -->
+    <article class="day weekend">
+      <div class="day-head"><span class="no">DAY 07</span><h3>星期日</h3><span class="tag">周末</span></div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill b">早餐</span><span class="dish">火腿鸡蛋三明治 · 牛奶 · 水果</span><span class="time">10 分钟</span></div>
+        <p class="how">吐司煎一下，夹煎蛋、火腿片、生菜和沙拉酱，对角切开；配牛奶和当季水果，十分钟出门。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill l">午餐</span><span class="dish">板栗烧鸡 · 蒜蓉蒸茄子 · 菠菜猪肝汤</span><span class="time">60 分钟</span></div>
+        <p class="how">鸡腿块焯水后炒糖色，加板栗、生抽和水焖 25 分钟；茄子蒸 10 分钟淋蒜蓉热油；猪肝切薄片，关火前汆 30 秒，嫩而不老。</p>
+      </div>
+      <div class="meal">
+        <div class="meal-top"><span class="pill d">晚餐</span><span class="dish">白菜豆腐丸子煲</span><span class="time">40 分钟</span></div>
+        <p class="how">肉末加姜末、淀粉搅打上劲，挤成丸子下锅；加豆腐、白菜、粉丝一锅炖，少盐少油，配米饭，给周末一个清淡收尾。</p>
+      </div>
+    </article>
+
+  </section>
+
+  <h2 class="sec-title">周末备菜 <span>90 分钟，换一周轻松</span></h2>
+  <div class="panel">
+    <ol class="prep-list">
+      <li><b>炖一锅红烧牛肉臊子</b>，分两份冷冻：周六早餐和应急备用。</li>
+      <li><b>包 80–100 个抄手</b>，托盘冻硬后装袋，周五早餐直接用。</li>
+      <li><b>蒸一锅红薯和南瓜</b>，冷藏，早饭微波 2 分钟即可。</li>
+      <li><b>煮五花肉 15 分钟</b>，冷藏，周三回锅肉省 15 分钟。</li>
+      <li><b>洗切周一到周三的蔬菜</b>，按顿分袋，做饭时直接下锅。</li>
+      <li><b>提前泡发木耳、泡软粉丝</b>，顺带把香辣酱蘸水调好一小瓶。</li>
+    </ol>
+  </div>
+
+  <h2 class="sec-title">采购清单 <span>三口之家 · 一周</span></h2>
+  <div class="panel">
+    <div class="shop">
+      <div class="shop-col">
+        <h4>肉禽蛋</h4>
+        <p>猪里脊 300g｜五花肉 400g｜排骨 800g｜鸡腿肉 1kg｜鲈鱼 1 条（约 600g）｜兔肉 500g（请摊主剁丁）｜猪肉末 500g｜猪肝 150g｜鸡蛋 30 个｜火腿片 1 包</p>
+        <h4>主食乳品</h4>
+        <p>挂面 2 把｜小汤圆 1 袋｜抄手皮 1 斤｜饺子皮 1 斤｜吐司 1 袋｜牛奶 2L｜大米｜小米｜面粉</p>
+      </div>
+      <div class="shop-col">
+        <h4>蔬菜</h4>
+        <p>番茄 8 个｜青椒 8 个｜二荆条、小米辣、仔姜｜莴笋 2 根｜西兰花 1 颗｜四季豆 400g｜菜心 500g｜大白菜 1 颗｜菠菜 300g｜茄子 2 根｜土豆 2 个｜胡萝卜 2 根｜白萝卜 2 根｜冬瓜半个｜南瓜半个｜板栗 300g｜黄瓜 2 根｜木耳、紫菜、虾皮</p>
+        <h4>调料</h4>
+        <p>富顺香辣酱｜郫县豆瓣｜甜面酱｜蒸肉米粉｜咖喱块｜生抽、老抽、香醋｜淀粉｜花椒｜姜葱蒜</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note"><b>辣度</b>青椒、豆瓣、辣椒面都留一手：先盛出女儿那份，再补辣。富顺豆花的蘸水可以单独调一小碟微辣版。</div>
+    <div class="note"><b>分量</b>三碗饭约 2.5 杯米；荤菜 300–400g、素菜 400g、汤 1.5L 刚好一餐，剩下少量可留第二天加热。</div>
+    <div class="note"><b>替换</b>鲈鱼可换鲫鱼或鲳鱼；兔肉可换鸡腿；板栗可换土豆；豆花买不到时用内酯豆腐蒸热代替。</div>
+    <div class="note"><b>预算</b>按富顺本地菜价，一周食材约 350–450 元（含肉蛋奶），豆花和兔肉按当天市价。</div>
+  </div>
+
+  <footer>富顺 · 一周食谱 ｜ 早餐 12–20 分钟 · 晚餐 30–40 分钟 ｜ 可按季节替换时蔬</footer>
+</div>
+</body>
+</html>
